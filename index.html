@@ -184,26 +184,37 @@
     </article>
 
     <article class="project flip">
-      <div class="media">
-        <video data-loop muted loop playsinline preload="metadata" poster="assets/img/humanoid-poster.jpg" aria-label="A simulated humanoid walking on a checkered floor"><source src="assets/video/humanoid.mp4" type="video/mp4"></video>
+      <div class="lab" id="walker" aria-label="Replay of the humanoid policy at different points in training">
+        <div class="lab-view"><img class="lab-poster" src="assets/img/humanoid-poster.jpg" alt="" aria-hidden="true"></div>
+        <div class="lab-read" aria-live="polite"><b id="walker-step">1.5M steps</b> <span id="walker-out">Walked the full 1,000 steps, 12.4 m</span></div>
+        <div class="ckpts" id="walker-ckpts" role="group" aria-label="Training checkpoint"></div>
+        <p class="lab-note">Drag through training. Each bar is a saved checkpoint from my run, replayed in MuJoCo with the same start.</p>
       </div>
       <div class="copy">
         <p class="kind">Locomotion in simulation</p>
         <h3>Getting a humanoid to walk</h3>
-        <p>A 17-joint MuJoCo humanoid. My first policy learned what I called survival locomotion: arms flailing, torso at 45°, falling slowly. Switching algorithm and dropping normalisation turned it into a gait.</p>
-        <p class="result">Peak reward 5,742, up from about 400</p>
+        <p>A 17-joint MuJoCo humanoid. My first policy learned what I called survival locomotion: arms flailing, torso at 45°, falling slowly. TQC on Humanoid-v5, where the contact cost actually works, turned it into a gait.</p>
+        <p class="result">Peak reward 5,742. Walks the full episode by 1.5M steps.</p>
         <a class="go" href="https://github.com/Irbaaz-Patel-13/bipedal-locomotion">Code</a>
       </div>
     </article>
 
     <article class="project">
-      <div class="media">
-        <video data-loop muted loop playsinline preload="metadata" poster="assets/img/litter-poster.jpg" aria-label="Aerial beach footage with litter detections drawn as boxes"><source src="assets/video/litter.mp4" type="video/mp4"></video>
+      <div class="lab" id="route" aria-label="Animated drone route over a real aerial frame">
+        <div class="lab-view route-view">
+          <canvas id="route-canvas" role="img" aria-label="The planner's route: the drone flies from base to each detected item in order and returns after each pickup"></canvas>
+          <div class="inset">
+            <video data-loop muted loop playsinline preload="metadata" poster="assets/img/litter-poster.jpg" aria-label="Detector running on aerial beach footage"><source src="assets/video/litter.mp4" type="video/mp4"></video>
+            <span>Detection</span>
+          </div>
+        </div>
+        <div class="lab-read" aria-live="polite"><b id="route-count">Pickup 0 of 13</b> <span id="route-leg">Nearest item first, back to base after each one</span></div>
+        <div class="frames" id="route-frames" role="group" aria-label="Aerial frame"></div>
       </div>
       <div class="copy">
         <p class="kind">Published at ICNGT 2025</p>
-        <h3>Spotting beach litter from a drone</h3>
-        <p>My B.Tech capstone with Chirag Devgade and Priyam Kuvadiya. A YOLOv8 detector made real-time with ONNX and TensorRT, feeding a pickup route planner.</p>
+        <h3>Spotting beach litter, then planning the pickup</h3>
+        <p>My B.Tech capstone with Chirag Devgade and Priyam Kuvadiya. YOLOv8 finds litter in drone footage, made real-time with ONNX and TensorRT. A planner then locates each item and orders the pickups into a flight route, exported as JSON waypoints.</p>
         <p class="result">71.4% mAP50 at about 70 FPS</p>
         <a class="go" href="https://github.com/Irbaaz-Patel-13/Drone-mapping-path-finding">Code</a>
       </div>
@@ -264,5 +275,6 @@
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 <script type="module" src="assets/js/scene.js"></script>
+<script type="module" src="assets/js/labs.js"></script>
 </body>
 </html>

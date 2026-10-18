@@ -242,3 +242,39 @@ dialog.film button { font: 650 0.9375rem/1 var(--display); background: var(--ink
 .no-js .text > * { grid-area: auto; }
 .no-js .cap { opacity: 1; visibility: visible; }
 .no-js .cue, .no-js .progress, .no-js .scrim { display: none; }
+
+/* ---------- interactive project panels ---------- */
+.lab { display: grid; gap: 14px; min-width: 0; }
+.lab-view { position: relative; border-radius: 16px; overflow: hidden; background: var(--bg-2); aspect-ratio: 16 / 10; max-width: 100%; }
+.lab-view canvas, .lab-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.lab-view canvas { touch-action: pan-y; }
+.route-view { aspect-ratio: 1 / 1; max-height: 640px; }
+.lab-read { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; font: 500 1rem/1.35 var(--display); color: var(--muted); min-height: 1.4em; }
+.lab-read b { color: var(--ink); font-weight: 750; font-size: 1.125rem; font-variant-numeric: tabular-nums; }
+.lab-note { font: 500 0.875rem/1.45 var(--display); color: var(--faint); max-width: 60ch; }
+
+.ckpts { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px; align-items: end; height: 92px; touch-action: none; cursor: pointer; user-select: none; }
+.ckpts button { all: unset; box-sizing: border-box; height: 100%; display: grid; grid-template-rows: 1fr auto; gap: 6px; cursor: pointer; }
+.ckpts button i { align-self: end; display: block; border-radius: 4px 4px 2px 2px; background: color-mix(in srgb, var(--led) 26%, var(--bg-2)); min-height: 4px; transition: background .2s; }
+.ckpts button.fell i { background: color-mix(in srgb, var(--mug) 30%, var(--bg-2)); }
+.ckpts button span { font: 600 0.75rem/1 var(--display); color: var(--faint); text-align: center; font-variant-numeric: tabular-nums; }
+.ckpts button[aria-pressed="true"] i { background: var(--led); }
+.ckpts button.fell[aria-pressed="true"] i { background: var(--mug); }
+.ckpts button[aria-pressed="true"] span { color: var(--ink); }
+.ckpts button:focus-visible { outline: 2px solid var(--led); outline-offset: 2px; border-radius: 4px; }
+
+.frames { display: flex; gap: 8px; flex-wrap: wrap; }
+.frames button { all: unset; box-sizing: border-box; width: 64px; height: 64px; border-radius: 10px; overflow: hidden; cursor: pointer; border: 2px solid transparent; opacity: .6; transition: opacity .2s, border-color .2s; }
+.frames button img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.frames button[aria-pressed="true"] { border-color: var(--led); opacity: 1; }
+.frames button:hover { opacity: 1; }
+.frames button:focus-visible { outline: 2px solid var(--led); outline-offset: 2px; }
+
+.inset { position: absolute; right: 12px; top: 12px; width: 30%; transition: opacity .35s ease; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; box-shadow: 0 0 0 1px var(--line), 0 10px 30px rgba(0,0,0,.45); background: #000; }
+.inset video { width: 100%; height: 100%; object-fit: cover; }
+.inset span { position: absolute; left: 8px; top: 8px; font: 650 0.75rem/1 var(--display); padding: 5px 8px; border-radius: 999px; background: rgba(9,18,20,.75); }
+.inset .pp { right: 6px; bottom: 6px; min-height: 26px; padding: 0 10px; font-size: 0.75rem; }
+@media (max-width: 600px) { .inset { width: 40%; } }
+
+.inset.dodge { opacity: .12; }
+.inset:hover { opacity: 1; }
