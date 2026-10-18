@@ -19,6 +19,39 @@
 <link rel="stylesheet" href="assets/css/main.css">
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <script type="importmap">{"imports":{"three":"./assets/vendor/three.module.js","three/examples/jsm/":"./assets/vendor/addons/"}}</script>
+<!-- start downloading the 3D scene immediately, in parallel -->
+<link rel="modulepreload" href="assets/vendor/three.module.js">
+<link rel="modulepreload" href="assets/js/scene.js">
+<link rel="modulepreload" href="assets/vendor/urdf/URDFLoader.js">
+<link rel="modulepreload" href="assets/vendor/urdf/URDFClasses.js">
+<link rel="modulepreload" href="assets/vendor/addons/loaders/OBJLoader.js">
+<link rel="modulepreload" href="assets/vendor/addons/loaders/STLLoader.js">
+<link rel="modulepreload" href="assets/vendor/addons/loaders/ColladaLoader.js">
+<link rel="modulepreload" href="assets/vendor/addons/loaders/TGALoader.js">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/run.json">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/cloud.bin">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/hsrb4s.urdf">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/arm_v0/arm_flex_light.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/arm_v0/arm_roll_light.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/arm_v0/shoulder.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/base_v2/base_light.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/base_v2/body_light.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/base_v2/torso_base.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/hand_v0/l_distal.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/hand_v0/l_proximal.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/hand_v0/palm.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/hand_v0/r_distal.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/hand_v0/r_proximal.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/head_v1/head_pan.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/head_v1/head_tilt.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/head_v1/head_upper.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/head_v1/tablet_base.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/sensors/head_camera.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/sensors/laser.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/sensors/rgbd_light.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/torso_v0/torso_light.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/wrist_v0/wrist_flex.obj">
+<link rel="preload" as="fetch" crossorigin href="assets/hsr/meshes/wrist_v0/wrist_roll.obj">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Irbaaz Ahmed Patel","jobTitle":"Robotics engineer","url":"https://irbaaz-patel-13.github.io/","email":"mailto:patelirbaazahmed@gmail.com","sameAs":["https://www.linkedin.com/in/irbaaz-patel-74088625b","https://github.com/Irbaaz-Patel-13"],"alumniOf":[{"@type":"CollegeOrUniversity","name":"Heriot-Watt University"},{"@type":"CollegeOrUniversity","name":"NMIMS"}],"address":{"@type":"PostalAddress","addressLocality":"Edinburgh","addressCountry":"GB"},"knowsAbout":["Robotic manipulation","Computer vision","ROS","Reinforcement learning"]}
 </script>

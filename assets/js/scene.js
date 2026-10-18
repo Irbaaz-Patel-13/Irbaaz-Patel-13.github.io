@@ -74,9 +74,9 @@ async function init() {
   grid.rotation.x = Math.PI / 2; grid.position.set(0.6, 0, 0); world.add(grid);
 
   const [meta, buf, urdfText] = await Promise.all([
-    fetch(BASE + '/run.json').then((r) => r.json()),
-    fetch(BASE + '/cloud.bin').then((r) => r.arrayBuffer()),
-    fetch(BASE + '/hsrb4s.urdf').then((r) => r.text()),
+    fetch(BASE + '/run.json', { credentials: 'same-origin', mode: 'cors' }).then((r) => r.json()),
+    fetch(BASE + '/cloud.bin', { credentials: 'same-origin', mode: 'cors' }).then((r) => r.arrayBuffer()),
+    fetch(BASE + '/hsrb4s.urdf', { credentials: 'same-origin', mode: 'cors' }).then((r) => r.text()),
   ]);
 
   // ---- point cloud with a lidar-style reveal sweep ----
@@ -128,7 +128,7 @@ async function init() {
   loader.loadMeshCb = (path, mgr, done) => new OBJLoader(mgr).load(path, (o) => done(o), undefined, (e) => done(null, e));
   const robot = loader.parse(urdfText);
   const holder = new THREE.Group(); holder.add(robot); world.add(holder);
-  await new Promise((res) => { manager.onLoad = res; setTimeout(res, 20000); });
+  await new Promise((res) => { manager.onLoad = res; setTimeout(res, 12000); });
   robot.traverse((o) => {
     if (o.isLine || o.isPoints) { o.visible = false; return; }   // some OBJs carry edge lines
     if (!o.isMesh) return;
@@ -176,19 +176,20 @@ async function init() {
   let visible = true;
   new IntersectionObserver((es) => { visible = es[0].isIntersecting; }, { threshold: 0 }).observe(stage);
 
+  introStart = performance.now();
   stage.classList.add('live');
   window.dispatchEvent(new CustomEvent('scene:ready'));
 
   renderer.setAnimationLoop((now) => {
     if (!visible) return;
     const p = still ? 0 : storyProgress();
-    const intro = still || reduce ? 1 : smooth(clamp((now - introStart) / 2600));
+    const intro = still || reduce ? 1 : smooth(clamp((now - introStart) / 1100));
     // reveal sweep runs on load, across the chair, then holds
-    cloudMat.uniforms.uSweep.value = lerp(0.35, 2.2, intro);
+    cloudMat.uniforms.uSweep.value = 9;
 
     const k = cameraAt(p);
     const sway = reduce || still ? 0 : Math.sin(now / 2600) * 0.04;
-    const dist = lerp(1.45, 1, intro) * (view.desk ? 1 : 1.12);
+    const dist = lerp(1.06, 1, intro) * (view.desk ? 1 : 1.12);
     camTgt.set(...k.tgt);
     const target = new THREE.Vector3(...k.pos).sub(camTgt).multiplyScalar(dist).add(camTgt);
     target.x += sway; target.y += sway * 0.4;
