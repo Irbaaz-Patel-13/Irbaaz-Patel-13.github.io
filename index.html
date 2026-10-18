@@ -31,7 +31,7 @@
     <a class="hide-s" href="#finding">Research</a>
     <a class="hide-s" href="#work">Work</a>
     <a href="#about">About</a>
-    <a class="pill" href="assets/Irbaaz-Patel-CV.pdf">CV</a>
+    <a class="pill" href="#contact">Contact</a>
   </nav>
 </header>
 
@@ -55,7 +55,6 @@
         <p class="role">Robotics engineer in Edinburgh. I build <b>perception and manipulation</b> for real robots.</p>
         <div class="btns">
           <a class="btn primary" href="assets/Irbaaz-Patel-CV.pdf">Download CV</a>
-          <a class="btn" href="#contact">Get in touch</a>
         </div>
       </div>
 
@@ -75,7 +74,7 @@
         <p>8 of 11 real trials worked. The last four ran fully autonomously, back to back.</p>
         <div class="btns">
           <button class="btn primary" type="button" data-film>Watch the full run</button>
-          <a class="btn" href="#finding">What I found</a>
+          <a class="btn" href="https://github.com/Irbaaz-Patel-13/intent-grasp-hsr">Code</a>
         </div>
       </div>
     </div>
@@ -124,11 +123,10 @@
         </div>
       </details>
       <details class="more">
-        <summary>How the pipeline works</summary>
+        <summary>Stack and credits</summary>
         <div class="more-body">
-          <p>GPT-4o turns the instruction and a camera image into an object, a part and task constraints. LangSAM finds the object, the point cloud is split into parts geometrically, and Contact-GraspNet proposes grasps on the chosen part. On ROS Noetic the HSR places its base, checks the pose, servos with its hand camera, closes on contact and confirms the lift with depth.</p>
-          <p class="muted small">MSc dissertation, Heriot-Watt University and the National Robotarium, supervised by Dr Mauro Dragone. Graded A. Builds on AffordGrasp (Tang et al., IROS 2025).</p>
-          <div class="btns"><a class="btn" href="https://github.com/Irbaaz-Patel-13/intent-grasp-hsr">Code, data and figures</a></div>
+          <p>GPT-4o, LangSAM (Grounding DINO + SAM), geometric part decomposition of the point cloud, Contact-GraspNet, and ROS Noetic on the robot. Perception runs on a CUDA PC; everything that touches the robot runs on the HSR workstation.</p>
+          <p class="muted small">MSc dissertation at Heriot-Watt University and the National Robotarium, supervised by Dr Mauro Dragone. Graded A. Builds on AffordGrasp (Tang et al., IROS 2025).</p>
         </div>
       </details>
     </div>
@@ -144,9 +142,9 @@
         <video data-loop muted loop playsinline preload="metadata" poster="assets/img/pick-place-poster.jpg" aria-label="A simulated Panda arm picking up a green cube and placing it on a target"><source src="assets/video/pick-place.mp4" type="video/mp4"></video>
       </div>
       <div class="copy">
-        <p class="kind">Reinforcement learning, PyBullet</p>
+        <p class="kind">Manipulation in simulation</p>
         <h3>Teaching a Panda arm to pick and place</h3>
-        <p>PPO stayed under 5% on the sparse reward. The first 200,000 steps were honestly painful to watch. TQC with hindsight replay made it learnable.</p>
+        <p>A Franka Panda in PyBullet with a sparse reward. PPO stayed under 5%, and the first 200,000 steps were honestly painful to watch. TQC with hindsight replay made it learnable.</p>
         <p class="result">100% success, 20 of 20 episodes</p>
         <a class="go" href="https://github.com/Irbaaz-Patel-13/robotic-sorting-rl">Code</a>
       </div>
@@ -157,9 +155,9 @@
         <video data-loop muted loop playsinline preload="metadata" poster="assets/img/humanoid-poster.jpg" aria-label="A simulated humanoid walking on a checkered floor"><source src="assets/video/humanoid.mp4" type="video/mp4"></video>
       </div>
       <div class="copy">
-        <p class="kind">Reinforcement learning, MuJoCo</p>
+        <p class="kind">Locomotion in simulation</p>
         <h3>Getting a humanoid to walk</h3>
-        <p>My first policy learned what I called survival locomotion: arms flailing, torso at 45°, falling slowly. TQC without normalisation turned it into a gait.</p>
+        <p>A 17-joint MuJoCo humanoid. My first policy learned what I called survival locomotion: arms flailing, torso at 45°, falling slowly. Switching algorithm and dropping normalisation turned it into a gait.</p>
         <p class="result">Peak reward 5,742, up from about 400</p>
         <a class="go" href="https://github.com/Irbaaz-Patel-13/bipedal-locomotion">Code</a>
       </div>
@@ -170,7 +168,7 @@
         <video data-loop muted loop playsinline preload="metadata" poster="assets/img/litter-poster.jpg" aria-label="Aerial beach footage with litter detections drawn as boxes"><source src="assets/video/litter.mp4" type="video/mp4"></video>
       </div>
       <div class="copy">
-        <p class="kind">Computer vision, published at ICNGT 2025</p>
+        <p class="kind">Published at ICNGT 2025</p>
         <h3>Spotting beach litter from a drone</h3>
         <p>My B.Tech capstone with Chirag Devgade and Priyam Kuvadiya. A YOLOv8 detector made real-time with ONNX and TensorRT, feeding a pickup route planner.</p>
         <p class="result">71.4% mAP50 at about 70 FPS</p>
@@ -191,7 +189,7 @@
   <div class="wrap about">
     <div class="prose">
       <h2 class="big scan" id="about-title">Hi, I’m Irbaaz.</h2>
-      <p>I studied AI and machine learning at NMIMS, then came to Edinburgh for an MSc in Robotics at Heriot-Watt. Most of my time there went on the unglamorous half of robotics: calibration, reachability, and why a plan that works in simulation fails on hardware.</p>
+      <p>I came to robotics from AI and machine learning. Most of my MSc went on the unglamorous half of it: calibration, reachability, and why a plan that works in simulation fails on hardware.</p>
       <p>Outside the lab I write poetry and make visual art. Robotics and the arts is where I’d like to end up.</p>
     </div>
     <dl class="facts">
@@ -220,7 +218,7 @@
 </main>
 
 <div class="wrap">
-  <footer><span>© 2026 Irbaaz Ahmed Patel, Edinburgh</span></footer>
+  <footer><span>© 2026 Irbaaz Ahmed Patel</span></footer>
 </div>
 
 <dialog class="film" id="film" aria-label="Full run video">
