@@ -6,7 +6,7 @@ import URDFLoader from '../vendor/urdf/URDFLoader.js';
 
 const story = document.getElementById('story');
 const stage = document.getElementById('stage');
-const tele = document.getElementById('telemetry');
+const viewEl = document.getElementById('view');
 const BASE = 'assets/hsr';
 const still = new URLSearchParams(location.search).has('still');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -23,22 +23,21 @@ export function storyProgress() {
 
 // Robot pose along the story (s = 0..4 over the five logged stages)
 function poseParam(p) {
-  if (p < 0.36) return 0;
-  if (p < 0.52) return ramp(p, 0.36, 0.52);
-  if (p < 0.70) return 1 + ramp(p, 0.52, 0.68);
-  if (p < 0.77) return 2 + ramp(p, 0.70, 0.76);
-  if (p < 0.88) return 3 + ramp(p, 0.77, 0.86);
-  return 4;
+  if (p < 0.30) return 0;
+  if (p < 0.47) return ramp(p, 0.30, 0.46);
+  if (p < 0.62) return 1 + ramp(p, 0.47, 0.60);
+  if (p < 0.72) return 2 + ramp(p, 0.63, 0.70);
+  return 3 + ramp(p, 0.72, 0.84);
 }
 
 // Camera keyframes in the three.js frame (y up; x = robot forward; z = -ROS y)
 const KEYS = [
   { p: 0.00, pos: [1.55, 1.45, 2.65], tgt: [0.42, 0.62, 0.00] },
-  { p: 0.22, pos: [1.30, 0.98, 0.95], tgt: [0.68, 0.52, 0.02] },
-  { p: 0.40, pos: [0.95, 1.75, 2.45], tgt: [0.45, 0.55, 0.00] },
-  { p: 0.60, pos: [0.30, 1.20, 1.95], tgt: [0.55, 0.64, 0.02] },
-  { p: 0.75, pos: [1.30, 0.98, 1.10], tgt: [0.64, 0.58, 0.00] },
-  { p: 0.93, pos: [2.15, 1.40, 2.25], tgt: [0.50, 0.72, 0.00] },
+  { p: 0.18, pos: [1.35, 1.05, 1.05], tgt: [0.66, 0.54, 0.02] },
+  { p: 0.38, pos: [0.95, 1.75, 2.45], tgt: [0.45, 0.55, 0.00] },
+  { p: 0.56, pos: [0.30, 1.20, 1.95], tgt: [0.55, 0.64, 0.02] },
+  { p: 0.70, pos: [1.30, 0.98, 1.10], tgt: [0.64, 0.58, 0.00] },
+  { p: 0.92, pos: [2.15, 1.40, 2.25], tgt: [0.50, 0.72, 0.00] },
 ];
 function cameraAt(p) {
   let i = 0; while (i < KEYS.length - 2 && p > KEYS[i + 1].p) i++;
@@ -57,7 +56,7 @@ async function init() {
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, mobile ? 1.5 : 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
-  stage.querySelector('.scrim').before(canvas);
+  viewEl.appendChild(canvas);
 
   const scene = new THREE.Scene();
   const bg = new THREE.Color(0x091214);
@@ -155,29 +154,25 @@ async function init() {
   }
 
   // ---- sizing ----
-  const view = { w: 1, h: 1, desk: true, oy: 0.19 };
-  function setOffset(oy) {
-    view.oy = oy;
-    if (view.desk) camera.setViewOffset(view.w, view.h, -view.w * 0.17, 0, view.w, view.h);
-    else camera.setViewOffset(view.w, view.h, 0, view.h * oy, view.w, view.h);
-    camera.updateProjectionMatrix();
-  }
+  const view = { w: 1, h: 1, desk: true };
   function resize() {
-    const w = stage.clientWidth, h = stage.clientHeight;
+    const w = viewEl.clientWidth, h = viewEl.clientHeight;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     const desk = w > 820;
     // keep the robot clear of the captions: shift the image right on desktop, up on phones
     view.w = w; view.h = h; view.desk = desk;
-    camera.fov = desk ? 34 : 46;
-    setOffset(view.oy);
+    camera.fov = desk ? 34 : 42;
+    // desktop: push the scene right so the words on the left never sit on the robot
+    if (desk) camera.setViewOffset(w, h, -w * 0.2, 0, w, h); else camera.clearViewOffset();
+    camera.updateProjectionMatrix();
     cloudMat.uniforms.uPix.value = h * renderer.getPixelRatio() * 0.9;
   }
-  new ResizeObserver(resize).observe(stage); resize();
+  new ResizeObserver(resize).observe(viewEl); resize();
 
   // ---- loop ----
   const camPos = new THREE.Vector3(), camTgt = new THREE.Vector3();
-  let first = true, sP = 0, introStart = performance.now(), lastTele = '';
+  let first = true, sP = 0, introStart = performance.now();
   let visible = true;
   new IntersectionObserver((es) => { visible = es[0].isIntersecting; }, { threshold: 0 }).observe(stage);
 
@@ -191,11 +186,9 @@ async function init() {
     // reveal sweep runs on load, across the chair, then holds
     cloudMat.uniforms.uSweep.value = lerp(0.35, 2.2, intro);
 
-    // phones: the scene sits below the hero text, then above the captions
-    if (!view.desk) { const want = 0.19; if (Math.abs(want - view.oy) > 0.001) setOffset(reduce ? want : lerp(view.oy, want, 0.15)); }
     const k = cameraAt(p);
     const sway = reduce || still ? 0 : Math.sin(now / 2600) * 0.04;
-    const dist = lerp(1.45, 1, intro);
+    const dist = lerp(1.45, 1, intro) * (view.desk ? 1 : 1.12);
     camTgt.set(...k.tgt);
     const target = new THREE.Vector3(...k.pos).sub(camTgt).multiplyScalar(dist).add(camTgt);
     target.x += sway; target.y += sway * 0.4;
@@ -207,15 +200,13 @@ async function init() {
     const pose = applyPose(sP);
 
     // ring: strong while the object is being chosen, faint afterwards
-    const ringOn = ramp(p, 0.16, 0.22) * (1 - 0.75 * ramp(p, 0.36, 0.42));
+    const ringOn = ramp(p, 0.03, 0.12) * (1 - 0.75 * ramp(p, 0.30, 0.36));
     const pulse = reduce ? 0.5 : (now / 1400) % 1;
     ring.material.opacity = ringOn;
     ring2.material.opacity = ringOn * (1 - pulse) * 0.7;
     ring2.scale.setScalar(1 + pulse * 0.9);
     ledRing.material.emissiveIntensity = 1.6 + Math.sin(now / 500) * 0.6;
 
-    const txt = `base <b>x ${pose.bx.toFixed(3)} y ${pose.by.toFixed(3)} yaw ${pose.yaw.toFixed(3)}</b>  arm_lift <b>${pose.q.arm_lift_joint.toFixed(3)}</b>  arm_flex <b>${pose.q.arm_flex_joint.toFixed(3)}</b>  wrist_flex <b>${pose.q.wrist_flex_joint.toFixed(3)}</b>`;
-    if (tele && txt !== lastTele && p > 0.05) { tele.innerHTML = txt; lastTele = txt; }
 
     renderer.render(scene, camera);
   });
