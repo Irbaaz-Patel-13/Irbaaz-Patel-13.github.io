@@ -1,0 +1,105 @@
+{
+ "n": 18194,
+ "target": [
+  0.677686889150933,
+  -0.024444899595729416,
+  0.499948854373932
+ ],
+ "instruction": "I'd like a hot drink",
+ "object": "red mug",
+ "part": "handle",
+ "candidate": 24,
+ "lift_m": 0.12,
+ "stages": [
+  {
+   "id": "start",
+   "label": "Start",
+   "note": "Arm stowed so the head camera has a clear view",
+   "base": [
+    0,
+    0,
+    0
+   ],
+   "q": {
+    "arm_lift_joint": 0.0,
+    "arm_flex_joint": 0.0,
+    "arm_roll_joint": 0.0,
+    "wrist_flex_joint": -1.57,
+    "wrist_roll_joint": 0.0
+   },
+   "hand": 0.0
+  },
+  {
+   "id": "drive",
+   "label": "Drive",
+   "note": "Base moves to the planned pose (x 0.27 m, y 0.02 m)",
+   "base": [
+    0.2674,
+    0.0155,
+    -0.2929
+   ],
+   "q": {
+    "arm_lift_joint": 0.0,
+    "arm_flex_joint": 0.0,
+    "arm_roll_joint": 0.0,
+    "wrist_flex_joint": -1.57,
+    "wrist_roll_joint": 0.0
+   },
+   "hand": 0.0
+  },
+  {
+   "id": "reach",
+   "label": "Reach",
+   "note": "Arm moves to the planner's joint solution for candidate 24",
+   "base": [
+    0.2674,
+    0.0155,
+    -0.2929
+   ],
+   "q": {
+    "arm_lift_joint": 0.6396,
+    "arm_flex_joint": -2.221,
+    "arm_roll_joint": 0.096,
+    "wrist_flex_joint": -0.9501,
+    "wrist_roll_joint": -0.3636
+   },
+   "hand": 0.725
+  },
+  {
+   "id": "grasp",
+   "label": "Grasp",
+   "note": "Gripper closes until it meets the mug",
+   "base": [
+    0.2674,
+    0.0155,
+    -0.2929
+   ],
+   "q": {
+    "arm_lift_joint": 0.6396,
+    "arm_flex_joint": -2.221,
+    "arm_roll_joint": 0.096,
+    "wrist_flex_joint": -0.9501,
+    "wrist_roll_joint": -0.3636
+   },
+   "hand": -0.33
+  },
+  {
+   "id": "lift",
+   "label": "Lift",
+   "note": "Arm lift rises 12 cm and depth confirms the mug came with it",
+   "base": [
+    0.2674,
+    0.0155,
+    -0.2929
+   ],
+   "q": {
+    "arm_lift_joint": 0.7595999999999999,
+    "arm_flex_joint": -2.221,
+    "arm_roll_joint": 0.096,
+    "wrist_flex_joint": -0.9501,
+    "wrist_roll_joint": -0.3636
+   },
+   "hand": -0.33
+  }
+ ]
+}

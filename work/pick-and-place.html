@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deep RL for pick-and-place · Irbaaz Ahmed Patel</title>
+<meta name="description" content="Training a simulated Franka Panda to pick and place with TQC and hindsight experience replay: from under 5% with PPO to 100% success.">
+<meta property="og:title" content="Deep RL for pick-and-place">
+<meta property="og:description" content="Training a simulated Franka Panda to pick and place with TQC and hindsight experience replay: from under 5% with PPO to 100% success.">
+<meta property="og:image" content="https://irbaaz-patel-13.github.io/assets/img/pick-place-poster.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,300..900&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="Main">
+    <a class="mark" href="../">Irbaaz Patel</a>
+    <ul>
+      <li><a href="../#work" aria-current="page">Work</a></li>
+      <li><a href="../#about">About</a></li>
+      <li><a href="../assets/Irbaaz-Patel-CV.pdf">CV</a></li>
+      <li><a href="../#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <header class="cs-head">
+    <a class="back" href="../#work">All work</a>
+    <h1>Deep RL for pick-and-place</h1>
+    <p class="lead">Teaching a simulated Franka Panda arm to pick up a cube from a random spot and place it at a random target, using only a sparse reward.</p>
+    <dl class="summary"><div><dt>Context</dt><dd>Independent project, 2026</dd></div><div><dt>My role</dt><dd>Solo: environment setup, training, evaluation</dd></div><div><dt>Environment</dt><dd>PandaPickAndPlace-v3 (panda-gym, PyBullet)</dd></div><div><dt>Stack</dt><dd>Stable-Baselines3, sb3-contrib TQC, HER</dd></div></dl>
+  </header>
+  <figure class="figure" style="margin-bottom:64px">
+    <div class="frame"><div class="aspect" style="aspect-ratio:4 / 3">
+      <video data-loop muted loop playsinline preload="metadata" poster="../assets/img/pick-place-poster.jpg" aria-label="The trained agent picking a green cube and placing it at a target"><source src="../assets/video/pick-place.mp4" type="video/mp4"></video>
+    </div></div>
+    <figcaption>The trained agent on evaluation episodes. It succeeded in all 20, averaging 9.4 steps each.</figcaption>
+  </figure>
+</div>
+<section class="chapter" aria-labelledby="pp-problem">
+  <div class="wrap chapter-grid">
+    <div class="side"><h2 id="pp-problem">The problem</h2></div>
+    <div class="prose">
+<p class="lead">Pick-and-place is seven skills in a row, and failing any one fails the episode.</p>
+<p>Reach the cube, open the gripper, position, close, lift, carry, release. The reward is sparse: −1 for every step until the cube sits at the target. Early on, a random policy almost never gets there, so there's almost nothing to learn from.</p></div>
+  </div>
+</section>
+<section class="chapter" aria-labelledby="pp-approach">
+  <div class="wrap chapter-grid">
+    <div class="side"><h2 id="pp-approach">Why TQC with hindsight replay</h2></div>
+    <div class="prose">
+<ul class="list">
+<li><strong>PPO stalled.</strong> After 500K steps it was still under 5% success. Being on-policy, it can't use hindsight relabelling.</li>
+<li><strong>HER makes the sparse reward usable.</strong> It relabels a failed episode as if wherever the cube ended up had been the goal, so every episode carries signal.</li>
+<li><strong>TQC beat SAC here.</strong> Its distributional critics, with the most extreme quantiles truncated, reduce overestimation. In my runs it was roughly 20 to 30% more sample-efficient than SAC.</li>
+<li><strong>A shorter horizon mattered.</strong> Dropping gamma from the default 0.99 to 0.95 helped, because pick-and-place doesn't need to plan far ahead.</li>
+</ul></div>
+  </div>
+</section>
+<section class="chapter" aria-labelledby="pp-curve">
+  <div class="wrap chapter-grid">
+    <div class="side"><h2 id="pp-curve">How training went</h2><p class="soft">1M timesteps, about 27 hours of training.</p></div>
+    <div class="prose">
+<ol class="steps">
+<li><h4>0 to 200K steps</h4><p>Mostly exploration. Success hovered between 0 and 10% while the replay buffer filled.</p></li>
+<li><h4>200K to 700K steps</h4><p>Grasping emerged and episodes got shorter. Training success reached about 20 to 25%, with evaluation swinging between 5 and 40%.</p></li>
+<li><h4>700K to 850K steps</h4><p>The agent worked out lift-and-carry. Success jumped from about 30% to 70% in 150K steps.</p></li>
+<li><h4>850K to 1M steps</h4><p>Refinement. Success climbed past 95% and episode length fell from about 25 steps to about 10.</p></li>
+</ol></div>
+  </div>
+</section>
+<section class="chapter" aria-labelledby="pp-results">
+  <div class="wrap chapter-grid">
+    <div class="side"><h2 id="pp-results">Results</h2></div>
+    <div class="prose">
+<div class="table-scroll"><table><thead><tr><th scope="col">Metric</th><th scope="col">Value</th></tr></thead><tbody><tr><td>Success rate</td><td>100% (20 of 20 evaluation episodes)</td></tr><tr><td>Average episode length</td><td>9.4 steps</td></tr><tr><td>Mean reward</td><td>−7.35 ± 2.59</td></tr><tr><td>Training</td><td>1,000,000 timesteps, about 27 hours</td></tr></tbody></table></div>
+<p>What didn't work: distance-based dense rewards made the agent hover near the cube without grasping it. Bigger networks, more parallel environments and more sampled goals per episode didn't help and slowed training down.</p>
+<p>The main lesson: hyperparameters like gamma, learning rate and batch size moved results far more than network size, and watching episodes caught problems the metrics missed.</p>
+<div class="btns"><a class="btn solid" href="https://github.com/Irbaaz-Patel-13/robotic-sorting-rl">Code on GitHub</a></div></div>
+  </div>
+</section>
+<div class="wrap">
+  <div class="next-project"><span class="soft">Next project</span><a href="humanoid.html">Humanoid locomotion with deep RL</a></div>
+  <footer><span>© <span id="year">2026</span> Irbaaz Ahmed Patel</span><a href="../#contact">Get in touch</a></footer>
+</div>
+<script src="../assets/site.js" defer></script>
+</body>
+</html>

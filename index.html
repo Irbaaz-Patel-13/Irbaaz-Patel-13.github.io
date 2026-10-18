@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Irbaaz Ahmed Patel · Robotics engineer</title>
+<meta name="description" content="Irbaaz Ahmed Patel is a robotics engineer working on perception and manipulation. MSc Robotics, Heriot-Watt University and the National Robotarium. Language-instructed grasping on a real Toyota HSR.">
+<meta property="og:title" content="Irbaaz Ahmed Patel · Robotics engineer">
+<meta property="og:description" content="Perception and manipulation on real robots. MSc Robotics, Heriot-Watt University.">
+<meta property="og:image" content="https://irbaaz-patel-13.github.io/assets/img/hsr-loop-poster.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F1F4F3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1517" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,300..900&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="preload" as="image" href="assets/img/hsr-loop-poster.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Irbaaz Ahmed Patel","jobTitle":"Robotics engineer","url":"https://irbaaz-patel-13.github.io/","sameAs":["https://www.linkedin.com/in/irbaaz-patel-74088625b","https://github.com/Irbaaz-Patel-13"],"alumniOf":[{"@type":"CollegeOrUniversity","name":"Heriot-Watt University"},{"@type":"CollegeOrUniversity","name":"NMIMS"}],"address":{"@type":"PostalAddress","addressLocality":"Edinburgh","addressCountry":"GB"}}
+</script>
+</head>
+<body>
+
+<div class="wrap">
+  <nav class="nav" aria-label="Main">
+    <a class="mark" href="./">Irbaaz Patel</a>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="assets/Irbaaz-Patel-CV.pdf">CV</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <span class="status"><i aria-hidden="true"></i>Available now, with the right to work in the UK</span>
+    <h1><span class="line">Robots that know</span> <span class="line">which part</span> <span class="line">to hold.</span></h1>
+    <div class="hero-body">
+      <div class="hero-copy">
+        <p class="lead"><strong>I'm Irbaaz Ahmed Patel</strong>, a robotics engineer working on perception and manipulation. For my MSc at Heriot-Watt University and the National Robotarium, I put a language-instructed grasping pipeline on a real Toyota HSR.</p>
+        <p class="soft">Most of that time went on the unglamorous half of robotics: calibration, reachability, and why a plan that runs in simulation fails on hardware. I'm looking for a perception or manipulation role where the robot is physical.</p>
+        <div class="btns">
+          <a class="btn solid" href="work/hsr.html">Read the HSR case study</a>
+          <a class="btn" href="assets/Irbaaz-Patel-CV.pdf">Download CV</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <div class="frame">
+          <div class="aspect">
+            <video data-loop muted loop playsinline preload="auto" poster="assets/img/hsr-loop-poster.jpg" aria-label="The Toyota HSR finding a red mug, driving to it, aligning its gripper and lifting it">
+              <source src="assets/video/hsr-loop.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <p class="caption">One real trial at the National Robotarium, four times normal speed: perception, base positioning, arm positioning, visual-servo alignment, then grasp and lift.</p>
+      </div>
+    </div>
+  </header>
+</div>
+
+<section class="section" id="work" aria-labelledby="work-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="work-title">Selected work</h2>
+      <p>One project on a real robot in depth, three in simulation and on drone imagery, and the smaller builds around them.</p>
+    </div>
+
+    <article class="feature" aria-labelledby="hsr-title">
+      <div>
+        <div class="frame"><img src="assets/img/scene-run-0807.jpg" width="640" height="480" alt="The HSR head camera's view of a red enamel mug on a wooden chair seat" loading="lazy"></div>
+        <p class="caption">What the HSR's head camera saw on the 7 August run, before it decided anything.</p>
+      </div>
+      <div class="ask">
+        <p class="kicker">The instruction never names the object</p>
+        <blockquote>I'd like a hot drink</blockquote>
+        <ol class="trace" aria-label="What the robot concluded">
+          <li><div class="q">Which object fits the task?</div><div class="a">The red mug</div></li>
+          <li class="target"><div class="q">Which part should it hold?</div><div class="a">The handle</div></li>
+          <li><div class="q">What else matters?</div><div class="a">It may be hot. Grip firmly.</div></li>
+          <li><div class="q">What went wrong?</div><div class="a">It assumed pouring and kept the rim clear. That's logged as a failure, not hidden.</div></li>
+        </ol>
+      </div>
+    </article>
+
+    <div class="feature" style="margin-top:48px">
+      <div class="prose">
+        <h3 id="hsr-title">Instruction-conditioned grasping on a Toyota HSR</h3>
+        <p>GPT-4o reasons about what the task needs and which part to grasp. LangSAM finds the object, but asked for a part it returns 86 to 97 percent of the whole object, so I find the part geometrically in the point cloud instead. Contact-GraspNet proposes grasps on that part, a collision-aware planner picks where the base should stand, and visual servoing from the hand camera lines up the final approach.</p>
+        <p>The core finding: language can name part-level constraints that segmentation cannot resolve.</p>
+        <div class="btns"><a class="btn solid" href="work/hsr.html">Read the case study</a><a class="btn" href="https://github.com/Irbaaz-Patel-13/intent-grasp-hsr">Code on GitHub</a></div>
+      </div>
+      <div class="facts">
+        <div><span class="big">8<small>/11</small></span><p>real-robot trials grasped and lifted the mug, the last four autonomously in a row</p></div>
+        <div><span class="big">25<small>/25</small></span><p>grasps reachable after base placement, up from none from the starting pose</p></div>
+        <div><span class="big">94<small>%</small></span><p>correct object picked from the instruction alone, 61 of 65 runs</p></div>
+        <div><span class="big">12.7<small> px</small></span><p>final alignment error after visual servoing, down from 46.9 px</p></div>
+      </div>
+    </div>
+
+    <div class="projects">
+      <article class="project">
+        <div class="frame"><div class="aspect">
+          <video data-loop muted loop playsinline preload="none" poster="assets/img/pick-place-poster.jpg" aria-label="Simulated Panda arm picking up a green cube and placing it at a target">
+            <source src="assets/video/pick-place.mp4" type="video/mp4"></video>
+        </div></div>
+        <h3><a href="work/pick-and-place.html">Deep RL for pick-and-place</a></h3>
+        <p class="meta">Franka Panda in PyBullet. TQC with hindsight experience replay.</p>
+        <p>A sparse-reward task where PPO stayed under 5% success. Relabelling failed episodes as if they'd hit a goal made it learnable.</p>
+        <p class="result">100% success over 20 evaluation episodes, 9.4 steps each</p>
+      </article>
+      <article class="project">
+        <div class="frame"><div class="aspect">
+          <video data-loop muted loop playsinline preload="none" poster="assets/img/humanoid-poster.jpg" aria-label="Simulated humanoid walking forward on a checkered floor">
+            <source src="assets/video/humanoid.mp4" type="video/mp4"></video>
+        </div></div>
+        <h3><a href="work/humanoid.html">Humanoid locomotion with deep RL</a></h3>
+        <p class="meta">MuJoCo Humanoid, 17 actuated joints. TQC.</p>
+        <p>The first policy learned to fall slowly. A different algorithm, no observation normalisation and a fixed environment version turned it into a gait.</p>
+        <p class="result">Peak reward 5,742, from about 400. Episodes up to 1,000 steps.</p>
+      </article>
+      <article class="project">
+        <div class="frame"><div class="aspect">
+          <video data-loop muted loop playsinline preload="none" poster="assets/img/litter-poster.jpg" aria-label="Aerial beach footage with litter detections drawn as boxes">
+            <source src="assets/video/litter.mp4" type="video/mp4"></video>
+        </div></div>
+        <h3><a href="work/beach-litter.html">Beach litter detection for cleaning drones</a></h3>
+        <p class="meta">YOLOv8-L, ONNX and TensorRT. Published at ICNGT 2025.</p>
+        <p>A detector for aerial beach imagery, accelerated for real time, feeding a planner that orders pickups into a drone route.</p>
+        <p class="result">71.4% mAP50 at about 70 FPS</p>
+      </article>
+    </div>
+
+    <div class="more">
+      <h3>Also built</h3>
+      <div class="rows">
+        <div class="row">
+          <h4>Real-time object detection node in ROS 2</h4>
+          <div><p class="what">My Python perception work ported to C++: a class-based rclcpp node that takes a camera stream through cv_bridge, runs YOLOv8 with the ONNX Runtime C++ API and publishes detections to RViz2, with per-frame latency measured.</p><p class="tools">C++17, ROS 2 Jazzy, ament_cmake, ONNX Runtime</p></div>
+          <span class="link"></span>
+        </div>
+        <div class="row">
+          <h4>LLM teaching assistant on Marty V2</h4>
+          <div><p class="what">A dual-mode behaviour system for a small humanoid classroom robot: narrative storytelling and LLM question answering, with speech, LEDs and servos coordinated per beat. I also designed a three-condition between-subjects study to evaluate it.</p><p class="tools">Python, LLM prompting, text-to-speech, behaviour design</p></div>
+          <a class="link" href="https://github.com/Irbaaz-Patel-13/Marty-HRI">Code</a>
+        </div>
+        <div class="row">
+          <h4>Autonomous driving and state estimation</h4>
+          <div><p class="what">TransFuser-Lite fuses camera and LiDAR through attention to predict waypoints, driven closed-loop in CARLA. A separate EKF fusing wheel odometry with LiDAR cut localisation error by 97.5%.</p><p class="tools">CARLA, PyTorch, sensor fusion, Kalman filtering</p></div>
+          <span class="link"></span>
+        </div>
+        <div class="row">
+          <h4>Cup-sorting robot arm</h4>
+          <div><p class="what">A 4-DoF arm that finds pint, half-pint and shot glasses with Hough circles, measures them against a reference board and picks them up with inverse kinematics on an ESP32. A group project.</p><p class="tools">OpenCV, inverse kinematics, ESP32, serial control</p></div>
+          <a class="link" href="https://github.com/Irbaaz-Patel-13/RMS-Image-processing">Code</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about" aria-labelledby="about-title">
+  <div class="wrap">
+    <div class="about">
+      <div class="prose">
+        <h2 id="about-title">About</h2>
+        <p class="lead">I came to robotics from AI and machine learning, and stayed for the part where models meet the physical world.</p>
+        <p>My B.Tech at NMIMS was in artificial intelligence and machine learning. At Heriot-Watt I moved onto real hardware: the Toyota HSR at the National Robotarium, supervised by Dr Mauro Dragone. I like problems that only show up on a real robot, like a camera with all-zero intrinsics or a wrist command silently rejected at its joint limit.</p>
+        <p>Outside the lab I write poetry and make visual art, and I led the creative department of the Atrangi Fine Arts Club at NMIMS. That's where my interest in robots that share space with people comes from. It's why I care how a robot hands over a knife, not only whether it can pick one up.</p>
+        <p>I'm based in Edinburgh.</p>
+      </div>
+      <div style="display:grid;gap:44px">
+        <div>
+          <p class="group-title">Experience</p>
+          <ul class="timeline">
+            <li><span class="when">Jan–May 2025</span><div><h4>AI Product Development Intern</h4><span class="where">Clarion Analytics</span><p>Deep learning pipelines that extract structure from P&amp;ID engineering drawings, with custom feature detection where standard OCR failed. A computer-vision fraud detection system for health insurance claims, including the annotation workflow behind it.</p></div></li>
+          </ul>
+        </div>
+        <div>
+          <p class="group-title">Education</p>
+          <ul class="timeline">
+            <li><span class="when">2025–2026</span><div><h4>MSc Robotics</h4><span class="where">Heriot-Watt University, Edinburgh</span></div></li>
+            <li><span class="when">2020–2025</span><div><h4>B.Tech, Artificial Intelligence and Machine Learning</h4><span class="where">NMIMS</span></div></li>
+            <li><span class="when">Certificates</span><div><p>Modern Robotics (Northwestern). Machine Learning with Python, Deep Learning with Keras and GenAI Applications (IBM).</p></div></li>
+          </ul>
+        </div>
+        <div>
+          <p class="group-title">Leadership and community</p>
+          <ul class="timeline">
+            <li><span class="when">2021–2024</span><div><h4>Head of Department (Creative), then Organising Committee</h4><span class="where">Atrangi Fine Arts Club, NMIMS</span></div></li>
+            <li><span class="when">2023–2024</span><div><h4>Student Grievance Committee</h4><span class="where">NMIMS Mukesh Patel School of Technology</span></div></li>
+            <li><span class="when">2022–2023</span><div><h4>Research and Development</h4><span class="where">Narsee Monjee Model United Nations</span></div></li>
+            <li><span class="when">Volunteering</span><div><p>Human Appeal Scotland, Heriot-Watt Islamic Society, and Developmental and Ecofriendly Enterprises, Mumbai.</p></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:64px">
+      <p class="group-title">Tools I work with</p>
+      <dl class="skills">
+        <div><dt>Robotics</dt><dd>ROS 1 Noetic, ROS 2 Jazzy, Gazebo, PyBullet, MuJoCo, CARLA, visual servoing, motion planning, camera calibration</dd></div>
+        <div><dt>Perception</dt><dd>OpenCV, YOLOv8, Grounding DINO, SAM, point-cloud processing, ONNX, TensorRT</dd></div>
+        <div><dt>Learning</dt><dd>PyTorch, Stable-Baselines3, deep RL (TQC, SAC, PPO, HER), vision-language models</dd></div>
+        <div><dt>Languages</dt><dd>Python, C++, Embedded C, SQL, MATLAB</dd></div>
+        <div><dt>Engineering</dt><dd>Linux, Git, Docker, CMake, CUDA</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="section contact" id="contact" aria-labelledby="contact-title">
+  <div class="wrap">
+    <h2 id="contact-title">Let's build something physical.</h2>
+    <div class="contact-grid">
+      <p class="lead soft">I'm looking for perception or manipulation roles, in research or engineering. I can start immediately and don't need sponsorship.</p>
+      <div>
+        <div class="channels">
+          <div><span class="label">Email</span><span class="value">patelirbaazahmed@gmail.com</span><button class="copy-btn" type="button" data-copy="patelirbaazahmed@gmail.com" aria-controls="copy-status">Copy</button></div>
+          <div><span class="label">LinkedIn</span><a class="value" href="https://www.linkedin.com/in/irbaaz-patel-74088625b">irbaaz-patel</a></div>
+          <div><span class="label">GitHub</span><a class="value" href="https://github.com/Irbaaz-Patel-13">Irbaaz-Patel-13</a></div>
+          <div><span class="label">CV</span><a class="value" href="assets/Irbaaz-Patel-CV.pdf">Download PDF</a></div>
+        </div>
+        <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <footer>
+    <span>© <span id="year">2026</span> Irbaaz Ahmed Patel</span>
+    <span>Edinburgh, United Kingdom</span>
+  </footer>
+</div>
+
+<script src="assets/site.js" defer></script>
+</body>
+</html>
