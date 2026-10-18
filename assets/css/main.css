@@ -80,7 +80,8 @@ h1, h2, h3, h4 { margin: 0; font-family: var(--display); font-weight: 750; line-
   background: linear-gradient(90deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 88%, transparent) 30%, color-mix(in srgb, var(--bg) 30%, transparent) 46%, transparent 58%); }
 
 /* all text in the stage shares one slot, so items never overlap each other */
-.text { position: absolute; z-index: 2; left: var(--gl); top: 0; bottom: 0; width: min(520px, 38vw); display: grid; align-items: center; }
+.text { position: absolute; z-index: 2; left: var(--gl); top: 0; bottom: 0; width: min(640px, 42vw); display: grid; align-items: center; }
+.cap { max-width: 520px; }
 .text > * { grid-area: 1 / 1; }
 .cap { opacity: 0; visibility: hidden; display: grid; gap: 18px; align-content: center; }
 .cap h2 { font-size: clamp(2rem, 3.6vw, 3.3rem); font-stretch: 110%; font-weight: 780; }
@@ -96,8 +97,8 @@ h1, h2, h3, h4 { margin: 0; font-family: var(--display); font-weight: 750; line-
 .hero-copy .status { display: inline-flex; align-items: center; gap: 10px; font: 550 0.9375rem/1.3 var(--display); color: var(--muted); }
 .hero-copy .status i { width: 9px; height: 9px; border-radius: 50%; background: var(--led); box-shadow: 0 0 0 5px var(--led-dim); flex: none; animation: blink 2.4s ease-in-out infinite; }
 @keyframes blink { 50% { box-shadow: 0 0 0 9px transparent; } }
-.hero-copy h1 { font-size: clamp(3.6rem, 8.6vw, 8.6rem); font-weight: 820; line-height: 0.86; letter-spacing: -0.03em; font-stretch: 122%; }
-.hero-copy h1 .word { display: block; }
+.hero-copy h1 { font-size: clamp(3.2rem, 6.4vw, 7rem); font-weight: 820; line-height: 0.88; letter-spacing: -0.03em; font-stretch: 118%; }
+.hero-copy h1 .word { display: block; white-space: nowrap; }
 .hero-copy h1 .ch { display: inline-block; }
 .hero-copy .role { font: 400 clamp(1.25rem, 1.8vw, 1.5rem)/1.4 var(--text); max-width: 26ch; }
 .hero-copy .role b { font-weight: 600; }
@@ -115,7 +116,7 @@ h1, h2, h3, h4 { margin: 0; font-family: var(--display); font-weight: 750; line-
   .scrim { background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 55%, transparent) 0%, transparent 14%, transparent 44%, var(--bg) 56%); }
   .text { left: var(--gl); right: var(--gr); width: auto; top: 54%; bottom: calc(56px + env(safe-area-inset-bottom, 0px)); align-items: start; }
   .cap, .hero-copy { align-content: start; gap: 12px; }
-  .hero-copy h1 { font-size: clamp(3rem, 15vw, 4.6rem); }
+  .hero-copy h1 { font-size: clamp(2.8rem, 14vw, 4.4rem); }
   .hero-copy .status { font-size: 0.875rem; }
   .hero-copy .role { font-size: 1.125rem; }
   .cap h2 { font-size: clamp(1.7rem, 7.4vw, 2.3rem); }
